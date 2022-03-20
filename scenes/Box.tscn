@@ -24,6 +24,7 @@ const MAX_SPEED = 16 / 0.3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	process_priority = 8
 	grid = get_parent()
 	type = grid.BOX
 	check_display_state()

@@ -98,7 +98,6 @@ func is_possible_move(pos, direction):
 #coalled by the box to know, if the player is about to push it
 func has_pusher(pos, direction):
 	var pusher_pos = world_to_map(pos)
-	print(grid.find(PLAYER))
 	return grid[pusher_pos.x][pusher_pos.y] == PLAYER
 
 #called by player and box to set thei next positions in the grid

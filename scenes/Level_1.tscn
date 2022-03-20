@@ -101,8 +101,7 @@ func is_possible_move(pos, direction):
 
 
 func has_pusher(pos, direction):
-	var own_pos = world_to_map(pos)
-	var pusher_pos = own_pos - direction
+	var pusher_pos = world_to_map(pos)
 	return grid[pusher_pos.x][pusher_pos.y] == PLAYER
 
 

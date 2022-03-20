@@ -1,0 +1,131 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/Tiles.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=5]
+script/source = "eextends KinematicBody2D
+
+
+# Declare member variables here:
+
+var grid
+var type
+var speed = 0
+var direction = Vector2()
+var velocity = Vector2()
+var is_moving = false
+var target_pos = Vector2()
+var target_direction = Vector2()
+
+const MAX_SPEED = 16 / 0.3
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	grid = get_parent()
+	type = grid.BOX
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta):
+	speed = 0
+	direction = grid.get_player_direction()
+	
+	if !is_moving and direction != Vector2():
+		target_direction = direction
+		
+		if grid.is_possible_move(position, target_direction):
+			target_pos = grid.update_child_pos(self)
+			is_moving = true
+		else:
+			target_direction = Vector2()
+	elif is_moving:
+		speed = MAX_SPEED
+		velocity = speed * target_direction * delta
+		var distance_to_target = Vector2(abs(target_pos.x - position.x), abs(target_pos.y - position.y))
+		
+		if abs(velocity.x) > distance_to_target.x:
+			velocity.x = distance_to_target.x * target_direction.x
+			if direction == Vector2():
+				target_direction = Vector2()
+			is_moving = false
+		
+		if abs(velocity.y) > distance_to_target.y:
+			velocity.y = distance_to_target.y * target_direction.y
+			if direction == Vector2():
+				target_direction = Vector2()
+			is_moving = false
+		
+		move_and_collide(velocity)
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "OnEmptyGround"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 49 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "OnTarget"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 57 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 49 ]
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[node name="Box" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = SubResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+hframes = 8
+vframes = 8
+frame = 49
+region_rect = Rect2( 16, 96, 16, 16 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/OnEmptyGround = SubResource( 2 )
+anims/OnTarget = SubResource( 3 )
+anims/RESET = SubResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 8, 8 )
+shape = SubResource( 1 )

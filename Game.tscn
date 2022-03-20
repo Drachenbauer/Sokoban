@@ -1,0 +1,15 @@
+[gd_scene format=2]
+
+[node name="Game" type="Node"]
+
+[node name="Grid" type="TileMap" parent="."]
+format = 1
+
+[node name="GridVisualizer" type="Node2D" parent="Grid"]
+
+[node name="Player" type="KinematicBody2D" parent="Grid"]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Grid/Player"]

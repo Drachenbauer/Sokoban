@@ -1,0 +1,265 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://assets/Player.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=15]
+script/source = "extends KinematicBody2D
+
+
+# Declare member variables here:
+
+var grid
+var type
+var speed = 0
+var direction = Vector2()
+var velocity = Vector2()
+var is_moving = false
+var target_pos = Vector2()
+var target_direction = Vector2()
+
+const MAX_SPEED = 16 / 0.3
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	grid = get_parent()
+	type = grid.BOX
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _physics_process(delta):
+	speed = 0
+	direction = grid.get_player_direction()
+	
+	if !is_moving and direction != Vector2():
+		target_direction = direction
+		
+		if grid.is_possible_move(position, target_direction):
+			target_pos = grid.update_child_pos(self)
+			is_moving = true
+		else:
+			target_direction = Vector2()
+	elif is_moving:
+		speed = MAX_SPEED
+		velocity = speed * target_direction * delta
+		var distance_to_target = Vector2(abs(target_pos.x - position.x), abs(target_pos.y - position.y))
+		
+		if abs(velocity.x) > distance_to_target.x:
+			velocity.x = distance_to_target.x * target_direction.x
+			if direction == Vector2():
+				target_direction = Vector2()
+			is_moving = false
+		
+		if abs(velocity.y) > distance_to_target.y:
+			velocity.y = distance_to_target.y * target_direction.y
+			if direction == Vector2():
+				target_direction = Vector2()
+			is_moving = false
+		
+		move_and_collide(velocity)
+"
+
+[sub_resource type="Animation" id=5]
+resource_name = "Idle"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 8, 9, 10, 11, 10, 9 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "Idle_D"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 24, 25, 26, 27, 26, 25 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Idle_U"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 40, 41, 42, 43, 42, 41 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "Push"
+length = 0.6
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Push_D"
+length = 0.6
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 20, 21, 22, 23 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Push_U"
+length = 0.6
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 36, 37, 38, 39 ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 26 ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "Walk"
+length = 0.6
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "Walk_D"
+length = 0.6
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 16, 17, 18, 19 ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "Walk_U"
+length = 0.6
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 32, 33, 34, 35 ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 5, 5 )
+
+[node name="Player" type="KinematicBody2D"]
+script = SubResource( 15 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+hframes = 8
+vframes = 8
+frame = 26
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite")
+anims/Idle = SubResource( 5 )
+anims/Idle_D = SubResource( 6 )
+anims/Idle_U = SubResource( 7 )
+anims/Push = SubResource( 8 )
+anims/Push_D = SubResource( 9 )
+anims/Push_U = SubResource( 10 )
+anims/RESET = SubResource( 11 )
+anims/Walk = SubResource( 12 )
+anims/Walk_D = SubResource( 13 )
+anims/Walk_U = SubResource( 14 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 8, 8 )
+shape = SubResource( 3 )

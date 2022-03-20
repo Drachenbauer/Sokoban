@@ -30,7 +30,6 @@ const PUSH_SPEED = 16 / 0.6
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	process_priority = 10
 	grid = get_parent()
 	type = grid.PLAYER
 	animation.play(\"Idle_D\")

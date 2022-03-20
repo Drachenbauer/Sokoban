@@ -24,7 +24,6 @@ const MAX_SPEED = 16 / 0.3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	process_priority = 8
 	grid = get_parent()
 	type = grid.BOX
 	check_display_state()
@@ -121,6 +120,7 @@ tracks/0/keys = {
 extents = Vector2( 8, 8 )
 
 [node name="Box" type="KinematicBody2D"]
+process_priority = 1
 collision_layer = 2
 collision_mask = 2
 script = SubResource( 5 )

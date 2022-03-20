@@ -48,7 +48,7 @@ func _ready():
 	var target_positions = targets.get_used_cells()
 	for target_pos in target_positions:
 		if target_pos.x < grid_size.x and target_pos.y < grid_size.y:
-			grid[target_pos.x][target_pos.y] = TARGET
+			target_grid[target_pos.x][target_pos.y] = TARGET
 	
 	# add walls to grid
 	var wall_positions = walls.get_used_cells()
@@ -58,6 +58,7 @@ func _ready():
 	
 	# add boxes to grid
 	var box_positions = []
+	box_positions.append(Vector2(2, 1))
 	box_positions.append(Vector2(7, 7))
 	box_positions.append(Vector2(11, 7))
 	box_positions.append(Vector2(16, 16))
@@ -76,15 +77,10 @@ func _ready():
 	grid[player_pos.x][player_pos.y] = PLAYER
 	add_child(player)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
-
+#called by player and box to know, if they can move to the next cell
 func is_possible_move(pos, direction):
 	var own_pos = world_to_map(pos)
 	var target_pos = own_pos + direction
-	
 	
 	if target_pos.x < grid_size.x and target_pos.x >= 0:
 		if target_pos.y < grid_size.y and target_pos.y >= 0:
@@ -99,12 +95,14 @@ func is_possible_move(pos, direction):
 				return true
 	return false
 
-
+#coalled by the box to know, if the player is about to push it
 func has_pusher(pos, direction):
 	var pusher_pos = world_to_map(pos)
+	print(grid.find(PLAYER))
 	return grid[pusher_pos.x][pusher_pos.y] == PLAYER
 
-
+#called by player and box to set thei next positions in the grid
+# (need a way to make the box call it before the player to prevent them from overwriting each other in the grid)
 func update_child_pos(child_node):
 	var grid_pos = world_to_map(child_node.position)
 	grid[grid_pos.x][grid_pos.y] = null
@@ -117,6 +115,9 @@ func update_child_pos(child_node):
 
 func get_player_direction():
 	return player.direction
+
+func get_player_position():
+	return player.position
 	
 
 func is_on_target(pos):
@@ -183,7 +184,7 @@ script = SubResource( 56 )
 tile_set = SubResource( 55 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 1245211, 0, 0, 1245212, 0, 0, 1245213, 0, 0, 1245214, 0, 0, 1310747, 0, 0, 1310749, 0, 0, 1310750, 0, 0, 1376283, 0, 0, 1376284, 0, 0, 1376285, 0, 0, 1376286, 0, 0, 1441819, 0, 0, 1441820, 0, 0, 1441821, 0, 0, 1441822, 0, 0 )
+tile_data = PoolIntArray( 458763, 0, 0, 1048593, 0, 0, 1245211, 0, 0, 1245212, 0, 0, 1245213, 0, 0, 1245214, 0, 0, 1310747, 0, 0, 1310749, 0, 0, 1310750, 0, 0, 1376283, 0, 0, 1376284, 0, 0, 1376285, 0, 0, 1376286, 0, 0, 1441819, 0, 0, 1441820, 0, 0, 1441821, 0, 0, 1441822, 0, 0 )
 
 [node name="Walls" type="TileMap" parent="Ground/Targets"]
 z_as_relative = false

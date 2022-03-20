@@ -23,6 +23,7 @@ script/source = "extends TileMap
 
 
 # Declare member variables here:
+onready var targets = $Targets
 onready var walls = $Targets/Walls
 onready var box_path = preload(\"res://scenes/Box.tscn\")
 onready var player_path = preload(\"res://scenes/Player.tscn\")
@@ -30,16 +31,24 @@ onready var player_path = preload(\"res://scenes/Player.tscn\")
 var player
 var tile_size = get_cell_size()
 var grid_size = Vector2(32, 24)
+var target_grid = []
 var grid = []
 
-enum {WALL, BOX, PLAYER}
+enum {TARGET, WALL, BOX, PLAYER}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for x in range(grid_size.x):
+		target_grid.append([])
 		grid.append([])
 		for _Y in range(grid_size.y):
+			target_grid[x].append(null)
 			grid[x].append(null)
+	# add targets to target_grid
+	var target_positions = targets.get_used_cells()
+	for target_pos in target_positions:
+		if target_pos.x < grid_size.x and target_pos.y < grid_size.y:
+			grid[target_pos.x][target_pos.y] = TARGET
 	
 	# add walls to grid
 	var wall_positions = walls.get_used_cells()
@@ -73,22 +82,28 @@ func _ready():
 
 
 func is_possible_move(pos, direction):
-	var target_pos = world_to_map(pos) + direction
 	var own_pos = world_to_map(pos)
-	var pusher_pos = world_to_map(pos) - direction
+	var target_pos = own_pos + direction
+	
 	
 	if target_pos.x < grid_size.x and target_pos.x >= 0:
 		if target_pos.y < grid_size.y and target_pos.y >= 0:
 			if  grid[target_pos.x][target_pos.y] == WALL:
 				return false
 			elif grid[target_pos.x][target_pos.y] == BOX:
-				if grid[own_pos.x][own_pos.y] == BOX and grid[pusher_pos.x][pusher_pos.y] == PLAYER:
-					return grid[target_pos.x][target_pos.y] == null
+				if grid[own_pos.x][own_pos.y] == BOX:
+					return false
 				if grid[own_pos.x][own_pos.y] == PLAYER:
 					return grid[target_pos.x + direction.x][target_pos.y + direction.y] == null
 			else:
 				return true
 	return false
+
+
+func has_pusher(pos, direction):
+	var own_pos = world_to_map(pos)
+	var pusher_pos = own_pos - direction
+	return grid[pusher_pos.x][pusher_pos.y] == PLAYER
 
 
 func update_child_pos(child_node):
@@ -103,6 +118,12 @@ func update_child_pos(child_node):
 
 func get_player_direction():
 	return player.direction
+	
+
+func is_on_target(pos):
+	var own_pos = world_to_map(pos)
+	return target_grid[own_pos.x][own_pos.y] == TARGET
+	
 "
 
 [sub_resource type="OccluderPolygon2D" id=54]

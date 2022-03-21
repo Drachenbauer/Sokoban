@@ -33,6 +33,7 @@ var tile_size = get_cell_size()
 var grid_size = Vector2(32, 24)
 var target_grid = []
 var grid = []
+var box_group = []
 
 enum {TARGET, WALL, BOX, PLAYER}
 
@@ -69,6 +70,7 @@ func _ready():
 		box.position = map_to_world(box_pos)
 		grid[box_pos.x][box_pos.y] = BOX
 		add_child(box)
+		box_group.append(box)
 	
 	# add player to grid
 	var player_pos = Vector2(1, 1)
@@ -97,32 +99,34 @@ func is_possible_move(pos, direction):
 
 #coalled by the box to know, if the player is about to push it
 func has_pusher(pos, direction):
-	var pusher_pos = world_to_map(pos)
+	var own_pos = world_to_map(pos)
+	var pusher_pos = own_pos - direction
 	return grid[pusher_pos.x][pusher_pos.y] == PLAYER
 
-#called by player and box to set thei next positions in the grid
-# (need a way to make the box call it before the player to prevent them from overwriting each other in the grid)
+#called by player and box to set their next positions in the grid
 func update_child_pos(child_node):
 	var grid_pos = world_to_map(child_node.position)
-	grid[grid_pos.x][grid_pos.y] = null
+	var is_player_already_on_box_pos = child_node.type == BOX && grid[grid_pos.x][grid_pos.y] == PLAYER
+	if !is_player_already_on_box_pos:
+		grid[grid_pos.x][grid_pos.y] = null
 	var new_grid_pos = grid_pos + child_node.direction
 	grid[new_grid_pos.x][new_grid_pos.y] = child_node.type
 	
 	var target_pos = map_to_world(new_grid_pos)
 	return target_pos
 
+#coalled by the box to know, if it´s placed on a target
+func is_on_target(pos):
+	var own_pos = world_to_map(pos)
+	return target_grid[own_pos.x][own_pos.y] == TARGET
+
 
 func get_player_direction():
 	return player.direction
 
+
 func get_player_position():
 	return player.position
-	
-
-func is_on_target(pos):
-	var own_pos = world_to_map(pos)
-	return target_grid[own_pos.x][own_pos.y] == TARGET
-	
 "
 
 [sub_resource type="OccluderPolygon2D" id=54]

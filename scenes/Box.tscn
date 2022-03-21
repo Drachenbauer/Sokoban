@@ -30,7 +30,41 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _physics_process(delta):
+func _physics_process(delta):
+	speed = 0
+	direction = grid.get_player_direction()
+
+	if !is_moving && direction != Vector2() && grid.has_pusher(position, direction):
+		target_direction = direction
+
+		if grid.is_possible_move(position, target_direction):
+			target_pos = grid.update_child_pos(self)
+			is_moving = true
+		else:
+			target_direction = Vector2()
+	elif is_moving:
+		speed = MAX_SPEED
+		velocity = speed * target_direction * delta
+		var distance_to_target = Vector2(abs(target_pos.x - position.x), abs(target_pos.y - position.y))
+
+		if abs(velocity.x) > distance_to_target.x:
+			velocity.x = distance_to_target.x * target_direction.x
+			if direction == Vector2():
+				target_direction = Vector2()
+			is_moving = false
+
+		if abs(velocity.y) > distance_to_target.y:
+			velocity.y = distance_to_target.y * target_direction.y
+			if direction == Vector2():
+				target_direction = Vector2()
+			is_moving = false
+
+		move_and_collide(velocity)
+
+		check_display_state()
+
+
+#func push (delta):
 #	speed = 0
 #	direction = grid.get_player_direction()
 #
@@ -62,40 +96,6 @@ func _ready():
 #		move_and_collide(velocity)
 #
 #		check_display_state()
-
-
-func push (delta):
-	speed = 0
-	direction = grid.get_player_direction()
-	
-	if !is_moving && direction != Vector2() && grid.has_pusher(position, direction):
-		target_direction = direction
-		
-		if grid.is_possible_move(position, target_direction):
-			target_pos = grid.update_child_pos(self)
-			is_moving = true
-		else:
-			target_direction = Vector2()
-	elif is_moving:
-		speed = MAX_SPEED
-		velocity = speed * target_direction * delta
-		var distance_to_target = Vector2(abs(target_pos.x - position.x), abs(target_pos.y - position.y))
-		
-		if abs(velocity.x) > distance_to_target.x:
-			velocity.x = distance_to_target.x * target_direction.x
-			if direction == Vector2():
-				target_direction = Vector2()
-			is_moving = false
-		
-		if abs(velocity.y) > distance_to_target.y:
-			velocity.y = distance_to_target.y * target_direction.y
-			if direction == Vector2():
-				target_direction = Vector2()
-			is_moving = false
-		
-		move_and_collide(velocity)
-		
-		check_display_state()
 
 
 func check_display_state():

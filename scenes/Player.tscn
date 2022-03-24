@@ -39,8 +39,8 @@ func _ready():
 func _physics_process(delta):
 	speed = 0
 	direction = Vector2()
-#	for box in grid.box_group:
-#		box.push(delta)
+	for box in grid.box_group:
+		box.push(delta)
 	
 	if Input.is_action_pressed(\"left\"):
 		direction = LEFT

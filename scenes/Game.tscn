@@ -35,20 +35,17 @@ func update_labels():
 
 func new_level():
 	if G.on_target == G.boxes:
-		var animation = fader.fade_out()
-		yield(animation, \"animation_finished\")
-		get_tree().paused = false
-		G.level += 1
-		G.pushes = 0
-		G.boxes = 0
-		G.on_target = 0
-		
-		if G.level <= G.MAPS.size():
+		if G.level < G.MAPS.size():
+			var animation = fader.fade_out()
+			yield(animation, \"animation_finished\")
+			get_tree().paused = false
+			G.level += 1
+			G.pushes = 0
+			G.boxes = 0
+			G.on_target = 0
 			get_tree().reload_current_scene()
 			fader.fade_in()
 		else:
-			G.level -= 1
-			fader.fade_in()
 			win()
 
 

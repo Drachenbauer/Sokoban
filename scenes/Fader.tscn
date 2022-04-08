@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends ColorRect
+
+# Declare member variables here:
+onready var animation = $AnimationPlayer
+
+var frame = 0
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	pass
+
+func boxes_rainbow():
+	var boxes = get_tree().get_nodes_in_group(\"Boxes\")
+	for box in boxes:
+		box.animation.play(\"rainbow\")
+
+
+func fade_in():
+	animation.play(\"FadeIn\")
+	return animation
+
+
+func fade_out():
+	get_tree().paused = true
+	#boxes_rainbow()
+	#yield(box.animation, \"animation_finished\")
+	animation.play(\"FadeOut\")
+	return animation
+"
+
+[sub_resource type="Animation" id=1]
+resource_name = "FadeIn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "FadeOut"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ) ]
+}
+
+[node name="Fader" type="ColorRect"]
+pause_mode = 2
+margin_left = -32.0
+margin_top = -64.0
+margin_right = 544.0
+margin_bottom = 448.0
+color = Color( 0, 0, 0, 1 )
+script = SubResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/FadeIn = SubResource( 1 )
+anims/FadeOut = SubResource( 2 )
+anims/RESET = SubResource( 3 )

@@ -1,9 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/Player.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=4]
-script/source = "extends KinematicBody2D
+script/source = "extends Node2D
 
 
 # Declare member variables here:
@@ -13,94 +13,134 @@ onready var sprite = $Sprite
 var grid
 var type
 var speed = 0
+var move = false
+var step = 0
+var pos = Vector2()
+var old_pos = Vector2()
+var undo_pos = Vector2()
 var direction = Vector2()
-var velocity = Vector2()
-var is_moving = false
-var is_pushing = false
-var target_pos = Vector2()
-var target_direction = Vector2()
+var key_pressed
 var animation_name = \"Idle_D\"
 
-const LEFT = Vector2(-1, 0)
-const RIGHT = Vector2(1, 0)
-const UP = Vector2(0, -1)
-const DOWN = Vector2(0, 1)
-const MAX_SPEED = 16 / 0.3
-const PUSH_SPEED = 16 / 0.6
+const DIR = {\"left\" : Vector2(-1, 0), \"right\" : Vector2(1, 0), \"up\" : Vector2(0, -1), \"down\" : Vector2(0, 1)}
+const STEP = 16.0 / 36.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	grid = get_parent()
 	type = grid.PLAYER
+	pos = position
 	animation.play(\"Idle_D\")
-	call_deferred(\"_physics_process\")
 
 
-func _physics_process(delta):
-	speed = 0
-	direction = Vector2()
-	for box in grid.box_group:
-		box.push(delta)
-	
-	if Input.is_action_pressed(\"left\"):
-		direction = LEFT
-	elif Input.is_action_pressed(\"right\"):
-		direction = RIGHT
-	if Input.is_action_pressed(\"up\"):
-		direction = UP
-	elif Input.is_action_pressed(\"down\"):
-		direction = DOWN
-	
-	if !is_moving and direction != Vector2():
-		target_direction = direction
-		if grid.is_possible_move(position, target_direction):
-			target_pos = grid.update_child_pos(self)
-			is_moving = true
-		else:
-			target_direction = Vector2()
-	elif is_moving:
-		speed = MAX_SPEED
-		velocity = speed * target_direction * delta
-		var distance_to_target = Vector2(abs(target_pos.x - position.x), abs(target_pos.y - position.y))
-		
-		if abs(velocity.x) > distance_to_target.x:
-			velocity.x = distance_to_target.x * target_direction.x
-			if direction == Vector2():
-				target_direction = Vector2()
-			is_moving = false
-		
-		if abs(velocity.y) > distance_to_target.y:
-			velocity.y = distance_to_target.y * target_direction.y
-			if direction == Vector2():
-				target_direction = Vector2()
-			is_moving = false
-		
-		move_and_collide(velocity)
-	
+func _process(_delta):
+	move()
 	animate_player()
 
 
+# warning-ignore:function_conflicts_variable
+func move():
+	if !move:
+		if Input.is_action_pressed(\"left\"):
+			start_mov(\"left\")
+		elif Input.is_action_pressed(\"right\"):
+			start_mov(\"right\")
+		elif Input.is_action_pressed(\"up\"):
+			start_mov(\"up\")
+		elif Input.is_action_pressed(\"down\"):
+			start_mov(\"down\")
+		elif Input.is_action_just_pressed(\"undo\"):
+			undo_step()
+		
+	step_mov()
+
+
+func start_mov(key):
+	direction = DIR[key]
+	
+	if grid.is_valid_move(pos, direction) || step > 0:
+		old_pos = pos
+		key_pressed = key
+		move = true
+		
+		if grid.is_pushing(old_pos, direction):
+			G.pushes_player.append(pos)
+			G.pushes_boxes.append([])
+			
+			var boxes = get_tree().get_nodes_in_group(\"Boxes\")
+			for box in boxes:
+				G.pushes_boxes[G.pushes].append(box.pos)
+			
+			G.pushes += 1
+	else:
+		direction = Vector2(0, 0)
+
+
+func step_mov():
+	if move:
+		var boxes = get_tree().get_nodes_in_group(\"Boxes\")
+		for box in boxes:
+				box.push(direction)
+			
+		step += 1
+		pos += STEP * direction
+		
+		if step == 36:
+			move = false
+			step = 0
+			pos = Vector2(round(pos.x), round(pos.y))
+			grid.update_child_pos(self)
+			grid.count_boxes_on_target()
+			if !Input.is_action_pressed(key_pressed):
+				direction = Vector2(0, 0)
+					
+		position = pos
+	else:
+		direction = Vector2(0, 0)
+
+
+func undo_step():
+	if !G.pushes_player.size() == 0:
+		G.pushes -= 1
+		undo_pos = position
+		position = G.pushes_player[G.pushes]
+		pos = position
+		grid.update_child_pos_undo(self)
+		G.pushes_player.remove(G.pushes)
+		
+		for box in G.box_group:
+			box.undo_pos = box.position
+			box.position = G.pushes_boxes[G.pushes][0]
+			box.pos = box.position
+			grid.update_child_pos_undo(box)
+			box.check_display_state()
+			G.pushes_boxes[G.pushes].remove(0)
+		
+		G.pushes_boxes.remove(G.pushes)
+		grid.count_boxes_on_target()
+
+
 func animate_player():
-	if target_direction == LEFT:
-		if is_pushing:
+	if direction == DIR[\"left\"]:
+		if grid.is_pushing(old_pos, direction):
 			animation_name = \"Push\"
 		else:
 			animation_name = \"Walk\"
 		sprite.flip_h = true
-	elif target_direction == RIGHT:
-		if is_pushing:
+	elif direction == DIR[\"right\"]:
+		if grid.is_pushing(old_pos, direction):
 			animation_name = \"Push\"
 		else:
 			animation_name = \"Walk\"
 		sprite.flip_h = false
-	elif target_direction == UP:
-		if is_pushing:
+	elif direction == DIR[\"up\"]:
+		if grid.is_pushing(old_pos, direction):
 			animation_name = \"Push_U\"
 		else:
 			animation_name = \"Walk_U\"
 		sprite.flip_h = false
-	elif target_direction == DOWN:
-		if is_pushing:
+	elif direction == DIR[\"down\"]:
+		if grid.is_pushing(old_pos, direction):
 			animation_name = \"Push_D\"
 		else:
 			animation_name = \"Walk_D\"
@@ -291,10 +331,7 @@ tracks/0/keys = {
 "values": [ 32, 33, 34, 35 ]
 }
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 5, 5 )
-
-[node name="Player" type="KinematicBody2D"]
+[node name="Player" type="Node2D"]
 script = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -316,8 +353,3 @@ anims/RESET = SubResource( 11 )
 anims/Walk = SubResource( 12 )
 anims/Walk_D = SubResource( 13 )
 anims/Walk_U = SubResource( 14 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 8, 8 )
-shape = SubResource( 3 )

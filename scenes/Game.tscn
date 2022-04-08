@@ -1,9 +1,126 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scenes/Level_1.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/courbd.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://scenes/Fader.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/Level.tscn" type="PackedScene" id=3]
 
-[node name="Game" type="Node"]
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+
+# Declare member variables here:
+onready var level = $InGame/Level/Ground
+onready var level_number = $LevelNumber
+onready var pushes = $Pushes
+onready var boxes = $Boxes
+onready var on_target = $OnTarget
+onready var fader = $Fader
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	fader.fade_in()
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	update_labels()
+	new_level()
+
+
+func update_labels():
+	level_number.text = \" Level: \" + str(G.level)
+	pushes.text = \" Pushes: \" + str(G.pushes)
+	boxes.text = \" Boxes: \" + str(G.boxes)
+	on_target.text = \" On target: \" + str(G.on_target)
+
+
+func new_level():
+	if G.on_target == G.boxes:
+		var animation = fader.fade_out()
+		yield(animation, \"animation_finished\")
+		get_tree().paused = false
+		G.level += 1
+		G.pushes = 0
+		G.boxes = 0
+		G.on_target = 0
+		
+		if G.level <= G.MAPS.size():
+			get_tree().reload_current_scene()
+			fader.fade_in()
+		else:
+			G.level -= 1
+			fader.fade_in()
+			win()
+
+
+func win():
+	get_tree().paused = true
+"
+
+[sub_resource type="Theme" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+size = 14
+outline_size = 2
+font_data = ExtResource( 1 )
+
+[node name="Game" type="Node2D"]
+script = SubResource( 1 )
 
 [node name="InGame" type="Node2D" parent="."]
 
-[node name="Level_1" parent="InGame" instance=ExtResource( 2 )]
+[node name="Level" parent="InGame" instance=ExtResource( 3 )]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_top = -32.0
+margin_right = 512.0
+color = Color( 0.247059, 0.215686, 0, 1 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 0, -32 )
+anchor_mode = 0
+current = true
+
+[node name="LevelNumber" type="Label" parent="."]
+margin_top = -32.0
+margin_right = 128.0
+theme = SubResource( 2 )
+custom_colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = " Level:"
+valign = 1
+
+[node name="Pushes" type="Label" parent="."]
+margin_left = 128.0
+margin_top = -32.0
+margin_right = 256.0
+theme = SubResource( 2 )
+custom_colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = " Pushes:"
+valign = 1
+
+[node name="Boxes" type="Label" parent="."]
+margin_left = 256.0
+margin_top = -32.0
+margin_right = 384.0
+theme = SubResource( 2 )
+custom_colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = " Boxes:"
+valign = 1
+
+[node name="OnTarget" type="Label" parent="."]
+margin_left = 384.0
+margin_top = -32.0
+margin_right = 512.0
+theme = SubResource( 2 )
+custom_colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = " On target:"
+valign = 1
+
+[node name="Fader" parent="." instance=ExtResource( 2 )]

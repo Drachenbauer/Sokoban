@@ -9,8 +9,7 @@ script/source = "extends Node
 
 
 # Declare member variables here:
-onready var level = $InGame/Level/Ground
-onready var level_number = $LevelNumber
+onready var level = $Level
 onready var pushes = $Pushes
 onready var boxes = $Boxes
 onready var on_target = $OnTarget
@@ -27,7 +26,7 @@ func _process(_delta):
 
 
 func update_labels():
-	level_number.text = \" Level: \" + str(G.level)
+	level.text = \" Level: \" + str(G.level)
 	pushes.text = \" Pushes: \" + str(G.pushes)
 	boxes.text = \" Boxes: \" + str(G.boxes)
 	on_target.text = \" On target: \" + str(G.on_target)
@@ -43,6 +42,8 @@ func new_level():
 			G.pushes = 0
 			G.boxes = 0
 			G.on_target = 0
+			G.pushes_player = []
+			G.pushes_boxes = []
 			get_tree().reload_current_scene()
 			fader.fade_in()
 		else:
@@ -77,7 +78,7 @@ position = Vector2( 0, -32 )
 anchor_mode = 0
 current = true
 
-[node name="LevelNumber" type="Label" parent="."]
+[node name="Level" type="Label" parent="."]
 margin_top = -32.0
 margin_right = 128.0
 theme = SubResource( 2 )

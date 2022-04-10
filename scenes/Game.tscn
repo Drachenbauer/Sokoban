@@ -122,3 +122,4 @@ text = " On target:"
 valign = 1
 
 [node name="Fader" parent="." instance=ExtResource( 2 )]
+mouse_filter = 2

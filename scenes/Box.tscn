@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://assets/Tiles.png" type="Texture" id=1]
+[ext_resource path="res://assets/TilesRock.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=5]
 script/source = "extends Node2D

@@ -50,10 +50,10 @@ func new_level():
 			G.pushes_boxes = []
 			get_tree().reload_current_scene()
 		else:
-			win()
+			win_game()
 
 
-func win():
+func win_game():
 	win.visible = true
 "
 

@@ -5,34 +5,24 @@ script/source = "extends ColorRect
 
 # Declare member variables here:
 onready var animation = $AnimationPlayer
+onready var boxes = get_tree().get_nodes_in_group(\"Boxes\")
 
-var frame = 0
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
 
 func boxes_rainbow():
-	var boxes = get_tree().get_nodes_in_group(\"Boxes\")
+	get_tree().paused = true
 	for box in boxes:
-		box.animation.play(\"rainbow\")
+		box.animation.play(\"Rainbow\")
+	
+	return boxes[boxes.size() - 1].animation
+
+
+func fade_out():
+	animation.play(\"FadeOut\")
+	return animation
 
 
 func fade_in():
 	animation.play(\"FadeIn\")
-	return animation
-
-
-func fade_out():
-	get_tree().paused = true
-	#boxes_rainbow()
-	#yield(box.animation, \"animation_finished\")
-	animation.play(\"FadeOut\")
-	return animation
 "
 
 [sub_resource type="Animation" id=1]

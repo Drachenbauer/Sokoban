@@ -10,9 +10,9 @@ script/source = "extends Node2D
 onready var ground = $Ground
 onready var walls = $Walls
 onready var targets = $Targets
+onready var options = $OptionPanel
 onready var box_path = preload(\"res://scenes/Box.tscn\")
 onready var player_path = preload(\"res://scenes/Player.tscn\")
-onready var options = $OptionPanel
 
 var tile_size = 0
 var grid_size = Vector2(32, 24)

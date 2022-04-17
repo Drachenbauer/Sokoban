@@ -116,6 +116,7 @@ tracks/0/keys = {
 }
 
 [node name="Box" type="Node2D" groups=["Boxes"]]
+pause_mode = 2
 process_priority = 1
 script = SubResource( 5 )
 

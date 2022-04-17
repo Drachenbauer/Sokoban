@@ -64,8 +64,8 @@ func setup_grid():
 
 
 func generate_walls():
-	for y in range(G.MAPS[level - 1][G.wall_thickness].size() - 1):
-		for x in range(G.MAPS[level - 1][G.wall_thickness][y].size() - 1):
+	for y in range(G.MAPS[level - 1][G.wall_thickness].size()):
+		for x in range(G.MAPS[level - 1][G.wall_thickness][y].size()):
 			if G.MAPS[level - 1][G.wall_thickness][y][x] == 1:
 				walls.set_cell(x - 1, y - 1, G.wall_type)
 				walls.update_bitmask_area(Vector2(x - 1, y - 1))
@@ -77,8 +77,8 @@ func generate_walls():
 
 
 func generate_targets():
-	for y in range(G.MAPS[level - 1][G.wall_thickness].size() - 1):
-		for x in range(G.MAPS[level - 1][G.wall_thickness][y].size() - 1):
+	for y in range(G.MAPS[level - 1][G.wall_thickness].size()):
+		for x in range(G.MAPS[level - 1][G.wall_thickness][y].size()):
 			if G.MAPS[level - 1][G.wall_thickness][y][x] == 2:
 				targets.set_cell(x - 1, y - 1, G.wall_type)
 	

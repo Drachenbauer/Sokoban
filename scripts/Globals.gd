@@ -9,6 +9,8 @@ var boxes = 0
 var on_target = 0
 var pushes_player = []
 var pushes_boxes = []
+var wall_type = 0
+var wall_thickness = 0
 
 const MAPS = [
 	[

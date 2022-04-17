@@ -10,8 +10,6 @@ script/source = "extends Control
 
 
 # Declare member variables here:
-var wall_type = 0
-var wall_thickness = 0
 var wall_type_old = 0
 var wall_thickness_old = 0
 
@@ -20,34 +18,34 @@ signal refresh
 
 func _on_ButtonBricks_toggled(button_pressed):
 	if button_pressed:
-		wall_type = 0
+		G.wall_type = 0
 		
 
 func _on_ButtonRock_toggled(button_pressed):
 	if button_pressed:
-		wall_type = 1
+		G.wall_type = 1
 
 
 func _on_ButtonThin_toggled(button_pressed):
 	if button_pressed:
-		wall_thickness = 0
+		G.wall_thickness = 0
 
 
 func _on_ButtonFull_toggled(button_pressed):
 	if button_pressed:
-		wall_thickness = 1
+		G.wall_thickness = 1
 
 
 func _on_ButtonCancel_pressed():
-	wall_type = wall_type_old
-	wall_thickness = wall_thickness_old
+	G.wall_type = wall_type_old
+	G.wall_thickness = wall_thickness_old
 	get_tree().paused = false
 	visible = false
 
 
 func _on_ButtonOK_pressed():
-	wall_type_old = wall_type
-	wall_thickness_old = wall_thickness_old
+	wall_type_old = G.wall_type
+	wall_thickness_old = G.wall_thickness
 	get_tree().paused = false
 	emit_signal(\"refresh\")
 	visible = false

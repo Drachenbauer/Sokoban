@@ -1,0 +1,104 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/style_boxes/Panel.tres" type="StyleBox" id=1]
+[ext_resource path="res://assets/Style.tres" type="Theme" id=2]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Control
+
+# Declare member variables here. Examples:
+onready var level_button = $Panel/Panel2/MenuButton
+
+var selected_level = G.level
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var popup = level_button.get_popup()
+	var j = 0
+	for i in range(G.highest_reached_level):
+		j = i + 1
+		popup.add_item(\"Level %s\" % j, i)
+	popup.connect(\"id_pressed\", self, \"_on_item_pressed\")
+
+
+func _on_item_pressed(id):
+	print(id)
+	selected_level = id + 1
+
+
+func _on_ButtonOK_pressed():
+	G.level = selected_level
+	visible = false
+	get_parent().load_level()
+
+
+func _on_ButtonCancel_pressed():
+	selected_level = G.level
+	get_tree().paused = false
+	visible = false
+"
+
+[node name="LevelPanel" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 0.635
+margin_right = -512.0
+margin_bottom = -360.16
+script = SubResource( 2 )
+
+[node name="Panel" type="Panel" parent="."]
+margin_right = 512.0
+margin_bottom = 256.0
+theme = ExtResource( 2 )
+custom_styles/panel = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="Panel"]
+margin_left = 32.0
+margin_top = 16.0
+margin_right = 480.0
+margin_bottom = 48.0
+theme = ExtResource( 2 )
+text = "Choose solved level to play again"
+align = 1
+valign = 1
+
+[node name="Panel2" type="Panel" parent="Panel"]
+margin_left = 32.0
+margin_top = 64.0
+margin_right = 480.0
+margin_bottom = 192.0
+theme = ExtResource( 2 )
+custom_styles/panel = ExtResource( 1 )
+
+[node name="MenuButton" type="MenuButton" parent="Panel/Panel2"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 416.0
+margin_bottom = 96.0
+rect_pivot_offset = Vector2( 544, -168 )
+mouse_default_cursor_shape = 2
+theme = ExtResource( 2 )
+text = "Level-List"
+flat = false
+
+[node name="ButtonCancel" type="Button" parent="Panel"]
+margin_left = 40.0
+margin_top = 208.0
+margin_right = 232.0
+margin_bottom = 240.0
+mouse_default_cursor_shape = 2
+theme = ExtResource( 2 )
+text = "Cancel"
+
+[node name="ButtonOK" type="Button" parent="Panel"]
+margin_left = 288.0
+margin_top = 208.0
+margin_right = 480.0
+margin_bottom = 240.0
+mouse_default_cursor_shape = 2
+theme = ExtResource( 2 )
+text = "OK"
+
+[connection signal="pressed" from="Panel/ButtonCancel" to="." method="_on_ButtonCancel_pressed"]
+[connection signal="pressed" from="Panel/ButtonOK" to="." method="_on_ButtonOK_pressed"]

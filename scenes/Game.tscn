@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/courbd.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scenes/Fader.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Level.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/Game.tres" type="Theme" id=4]
+[ext_resource path="res://scenes/LevelPanel.tscn" type="PackedScene" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -15,6 +16,7 @@ onready var pushes = $Pushes
 onready var boxes = $Boxes
 onready var on_target = $OnTarget
 onready var win = $Win
+onready var level_panel = $LevelPanel
 onready var fader = $Fader
 
 # Called when the node enters the scene tree for the first time.
@@ -25,7 +27,12 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	update_labels()
-	new_level()
+	
+	if G.on_target == G.boxes:
+		new_level()
+	
+	if Input.is_action_just_pressed(\"level\"):
+		level_panel.visible = true
 
 
 func update_labels():
@@ -36,25 +43,42 @@ func update_labels():
 
 
 func new_level():
-	if G.on_target == G.boxes:
-		var animation = fader.boxes_rainbow()
+	var animation = fader.boxes_rainbow()
+	yield(animation, \"animation_finished\")
+	if G.level < G.MAPS.size():
+		animation = fader.fade_out()
 		yield(animation, \"animation_finished\")
-		if G.level < G.MAPS.size():
-			animation = fader.fade_out()
-			yield(animation, \"animation_finished\")
-			G.level += 1
-			G.pushes = 0
-			G.boxes = 0
-			G.on_target = 0
-			G.pushes_player = []
-			G.pushes_boxes = []
-			get_tree().reload_current_scene()
-		else:
-			win_game()
+		G.level += 1
+		
+		if G.level > G.highest_reached_level:
+			G.highest_reached_level = G.level
+		
+		save_progress()
+		get_tree().reload_current_scene()
+	else:
+		win_game()
+
+
+func save_progress():
+	G.data[\"level\"] = G.level
+	G.data[\"highest_reached_level\"] = G.highest_reached_level
+	G.data[\"wall_type\"] = G.wall_type
+	G.data[\"wall_thickness\"] = G.wall_thickness
+	G.file.open(\"user://save.txt\", File.WRITE)
+	G.file.store_line(to_json(G.data))
+	G.file.close()
+
+
+func load_level():
+	var animation = fader.fade_out()
+	yield(animation, \"animation_finished\")
+	get_tree().reload_current_scene()
 
 
 func win_game():
+	win.set_as_toplevel(true)
 	win.visible = true
+	fader.fade_out()
 "
 
 [sub_resource type="Theme" id=2]
@@ -140,6 +164,12 @@ custom_fonts/font = SubResource( 4 )
 text = "Win"
 align = 1
 valign = 1
+
+[node name="LevelPanel" parent="." instance=ExtResource( 5 )]
+visible = false
+margin_top = 64.0
+margin_right = 0.0
+margin_bottom = 64.0
 
 [node name="Fader" parent="." instance=ExtResource( 2 )]
 margin_bottom = 416.0

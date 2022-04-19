@@ -18,13 +18,20 @@ var tile_size = 0
 var grid_size = Vector2(32, 24)
 var target_grid = []
 var grid = []
-var level = 0
 
 enum {WALL, TARGET, BOX, PLAYER}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	level = G.level
+	if !G.is_save_file_loaded:
+		load_save_file()
+		G.is_save_file_loaded = true
+	
+	G.pushes = 0
+	G.boxes = 0
+	G.on_target = 0
+	G.pushes_player = []
+	G.pushes_boxes = []
 	tile_size = walls.get_cell_size()
 	setup_grid()
 	set_ground_type()
@@ -34,6 +41,17 @@ func _ready():
 	generate_player()
 	count_boxes_on_target()
 	options.set_as_toplevel(true)
+
+
+func load_save_file():
+	if G.file.file_exists(\"user://save.txt\"):
+		G.file.open(\"user://save.txt\", File.READ)
+		G.data = parse_json(G.file.get_line())
+		G.file.close()
+		G.level = G.data[\"level\"]
+		G.highest_reached_level = G.data[\"highest_reached_level\"]
+		G.wall_type = G.data[\"wall_type\"]
+		G.wall_thickness = G.data[\"wall_thickness\"]
 
 
 func _process(_delta):
@@ -64,9 +82,9 @@ func setup_grid():
 
 
 func generate_walls():
-	for y in range(G.MAPS[level - 1][G.wall_thickness].size()):
-		for x in range(G.MAPS[level - 1][G.wall_thickness][y].size()):
-			if G.MAPS[level - 1][G.wall_thickness][y][x] == 1:
+	for y in range(G.MAPS[G.level - 1][G.wall_thickness].size()):
+		for x in range(G.MAPS[G.level - 1][G.wall_thickness][y].size()):
+			if G.MAPS[G.level - 1][G.wall_thickness][y][x] == 1:
 				walls.set_cell(x - 1, y - 1, G.wall_type)
 				walls.update_bitmask_area(Vector2(x - 1, y - 1))
 	
@@ -77,9 +95,9 @@ func generate_walls():
 
 
 func generate_targets():
-	for y in range(G.MAPS[level - 1][G.wall_thickness].size()):
-		for x in range(G.MAPS[level - 1][G.wall_thickness][y].size()):
-			if G.MAPS[level - 1][G.wall_thickness][y][x] == 2:
+	for y in range(G.MAPS[G.level - 1][G.wall_thickness].size()):
+		for x in range(G.MAPS[G.level - 1][G.wall_thickness][y].size()):
+			if G.MAPS[G.level - 1][G.wall_thickness][y][x] == 2:
 				targets.set_cell(x - 1, y - 1, G.wall_type)
 	
 	var target_positions = targets.get_used_cells()
@@ -89,16 +107,16 @@ func generate_targets():
 
 
 func generate_boxes():
-	for box_pos in G.BOX_POSITIONS[level - 1]:
+	for box_pos in G.BOX_POSITIONS[G.level - 1]:
 		var box = box_path.instance()
 		box.position = walls.map_to_world(box_pos)
 		add_child(box)
-		G.boxes += 1
 		grid[box_pos.x][box_pos.y] = BOX
+		G.boxes += 1
 
 
 func generate_player():
-	var player_pos = G.PLAYER_POSITIONS[level - 1]
+	var player_pos = G.PLAYER_POSITIONS[G.level - 1]
 	var player = player_path.instance()
 	player.position = walls.map_to_world(player_pos)
 	add_child(player)

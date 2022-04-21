@@ -23,7 +23,6 @@ func _ready():
 
 
 func _on_item_pressed(id):
-	print(id)
 	selected_level = id + 1
 
 

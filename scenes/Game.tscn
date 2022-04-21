@@ -52,8 +52,8 @@ func new_level():
 		
 		if G.level > G.highest_reached_level:
 			G.highest_reached_level = G.level
+			save_progress()
 		
-		save_progress()
 		get_tree().reload_current_scene()
 	else:
 		win_game()

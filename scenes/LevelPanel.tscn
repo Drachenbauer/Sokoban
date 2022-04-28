@@ -74,7 +74,7 @@ margin_right = 480.0
 margin_bottom = 320.0
 max_columns = 3
 same_column_width = true
-fixed_column_width = 140
+fixed_column_width = 144
 icon_mode = 0
 icon_scale = 2.0
 

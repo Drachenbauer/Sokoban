@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://assets/panel.tres" type="StyleBox" id=1]
-[ext_resource path="res://assets/Game.tres" type="Theme" id=2]
+[ext_resource path="res://assets/style/Style.tres" type="Theme" id=1]
 [ext_resource path="res://assets/Thickness.tres" type="ButtonGroup" id=3]
 [ext_resource path="res://assets/Types.tres" type="ButtonGroup" id=4]
 
@@ -56,18 +55,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -32.0
 mouse_filter = 2
-theme = ExtResource( 2 )
+theme = ExtResource( 1 )
 script = SubResource( 1 )
 
 [node name="Panel" type="Panel" parent="."]
 margin_right = 512.0
 margin_bottom = 384.0
-theme = ExtResource( 2 )
-custom_styles/panel = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="Panel"]
-margin_right = 512.0
-margin_bottom = 64.0
+margin_left = 32.0
+margin_top = 16.0
+margin_right = 480.0
+margin_bottom = 48.0
 text = "Options"
 align = 1
 valign = 1
@@ -78,14 +77,12 @@ margin_top = 64.0
 margin_right = 480.0
 margin_bottom = 192.0
 mouse_filter = 2
-theme = ExtResource( 2 )
-custom_styles/panel = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="Panel/Panel"]
 margin_left = 32.0
-margin_top = 32.0
+margin_top = 16.0
 margin_right = 424.0
-margin_bottom = 62.0
+margin_bottom = 47.0
 rect_scale = Vector2( 0.979015, 1.05852 )
 text = "Wall-Type"
 align = 1
@@ -93,9 +90,9 @@ valign = 1
 
 [node name="ButtonBricks" type="Button" parent="Panel/Panel"]
 margin_left = 32.0
-margin_top = 64.0
+margin_top = 80.0
 margin_right = 224.0
-margin_bottom = 96.0
+margin_bottom = 112.0
 mouse_default_cursor_shape = 2
 toggle_mode = true
 pressed = true
@@ -104,9 +101,9 @@ text = "Bricks"
 
 [node name="ButtonRock" type="Button" parent="Panel/Panel"]
 margin_left = 224.0
-margin_top = 64.0
+margin_top = 80.0
 margin_right = 416.0
-margin_bottom = 96.0
+margin_bottom = 112.0
 mouse_default_cursor_shape = 2
 toggle_mode = true
 group = ExtResource( 4 )
@@ -118,14 +115,12 @@ margin_top = 192.0
 margin_right = 480.0
 margin_bottom = 320.0
 mouse_filter = 2
-theme = ExtResource( 2 )
-custom_styles/panel = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="Panel/Panel2"]
 margin_left = 32.0
-margin_top = 32.0
+margin_top = 16.0
 margin_right = 424.0
-margin_bottom = 62.0
+margin_bottom = 47.0
 rect_scale = Vector2( 0.979015, 1.05852 )
 text = "Wall-Thickness"
 align = 1
@@ -133,9 +128,9 @@ valign = 1
 
 [node name="ButtonThin" type="Button" parent="Panel/Panel2"]
 margin_left = 32.0
-margin_top = 64.0
+margin_top = 80.0
 margin_right = 224.0
-margin_bottom = 96.0
+margin_bottom = 112.0
 mouse_default_cursor_shape = 2
 toggle_mode = true
 pressed = true
@@ -144,9 +139,9 @@ text = "Thin"
 
 [node name="ButtonFull" type="Button" parent="Panel/Panel2"]
 margin_left = 224.0
-margin_top = 64.0
+margin_top = 80.0
 margin_right = 416.0
-margin_bottom = 96.0
+margin_bottom = 112.0
 mouse_default_cursor_shape = 2
 toggle_mode = true
 group = ExtResource( 3 )
@@ -158,7 +153,6 @@ margin_top = 336.0
 margin_right = 224.0
 margin_bottom = 368.0
 mouse_default_cursor_shape = 2
-theme = ExtResource( 2 )
 text = "Cancel"
 
 [node name="ButtonOK" type="Button" parent="Panel"]
@@ -167,7 +161,6 @@ margin_top = 336.0
 margin_right = 480.0
 margin_bottom = 368.0
 mouse_default_cursor_shape = 2
-theme = ExtResource( 2 )
 text = "OK"
 
 [connection signal="toggled" from="Panel/Panel/ButtonBricks" to="." method="_on_ButtonBricks_toggled"]

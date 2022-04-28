@@ -1,27 +1,25 @@
-[gd_resource type="Theme" load_steps=25 format=2]
+[gd_resource type="Theme" load_steps=19 format=2]
 
-[ext_resource path="res://assets/courbd.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://assets/style_boxes/ButtonPressed.tres" type="StyleBox" id=2]
-[ext_resource path="res://assets/style_boxes/ButtonHover.tres" type="StyleBox" id=3]
-[ext_resource path="res://assets/style_boxes/ButtonFocus.tres" type="StyleBox" id=4]
-[ext_resource path="res://assets/style_boxes/ButtonDisabled.tres" type="StyleBox" id=5]
-[ext_resource path="res://assets/style_boxes/Button.tres" type="StyleBox" id=6]
-[ext_resource path="res://assets/style_boxes/Panel.tres" type="StyleBox" id=7]
-[ext_resource path="res://assets/style_boxes/CourierNewFont.tres" type="DynamicFont" id=8]
+[ext_resource path="res://assets/style/CourierNewFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/style/style_boxes/ButtonPressed.tres" type="StyleBox" id=2]
+[ext_resource path="res://assets/style/style_boxes/ButtonHover.tres" type="StyleBox" id=3]
+[ext_resource path="res://assets/style/style_boxes/ButtonFocus.tres" type="StyleBox" id=4]
+[ext_resource path="res://assets/style/style_boxes/ButtonDisabled.tres" type="StyleBox" id=5]
+[ext_resource path="res://assets/style/style_boxes/Button.tres" type="StyleBox" id=6]
+[ext_resource path="res://assets/style/style_boxes/Panel.tres" type="StyleBox" id=7]
 
-[sub_resource type="DynamicFont" id=22]
-
-[sub_resource type="DynamicFont" id=1]
-size = 20
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=11]
-size = 20
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 1 )
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+border_width_left = 4
+border_width_top = 22
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.372549, 0.32549, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id=8]
 draw_center = false
@@ -41,25 +39,6 @@ bg_color = Color( 1, 0.87451, 0, 1 )
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.498039, 0.435294, 0, 1 )
-
-[sub_resource type="DynamicFont" id=17]
-size = 20
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 1 )
-
-[sub_resource type="StyleBoxFlat" id=18]
-bg_color = Color( 0.498039, 0.435294, 0, 1 )
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color( 0.247059, 0.215686, 0, 1 )
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.372549, 0.32549, 0, 1 )
@@ -86,16 +65,10 @@ bg_color = Color( 0.498039, 0.435294, 0, 1 )
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
-border_color = Color( 0.247059, 0.215686, 0, 1 )
+border_color = Color( 0.372549, 0.32549, 0, 1 )
 border_blend = true
 corner_radius_top_left = 4
 corner_radius_top_right = 4
-
-[sub_resource type="DynamicFont" id=12]
-size = 21
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 1, 0.87451, 0, 1 )
@@ -134,7 +107,7 @@ Button/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.247059 )
 Button/colors/font_color_focus = Color( 0.74902, 0.654902, 0, 1 )
 Button/colors/font_color_hover = Color( 0.74902, 0.654902, 0, 1 )
 Button/colors/font_color_pressed = Color( 0.74902, 0.654902, 0, 1 )
-Button/fonts/font = ExtResource( 8 )
+Button/fonts/font = ExtResource( 1 )
 Button/styles/disabled = ExtResource( 5 )
 Button/styles/focus = ExtResource( 4 )
 Button/styles/hover = ExtResource( 3 )
@@ -145,10 +118,51 @@ ColorPickerButton/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.24
 ColorPickerButton/colors/font_color_focus = Color( 0.74902, 0.654902, 0, 1 )
 ColorPickerButton/colors/font_color_hover = Color( 0.74902, 0.654902, 0, 1 )
 ColorPickerButton/colors/font_color_pressed = Color( 0.74902, 0.654902, 0, 1 )
-ColorPickerButton/fonts/font = SubResource( 22 )
+Fonts/fonts/large = null
+Fonts/fonts/normal = null
+GraphEdit/colors/activity = Color( 0.74902, 0.654902, 0, 1 )
+GraphEdit/colors/grid_major = Color( 0.74902, 0.654902, 0, 1 )
+GraphEdit/colors/grid_minor = Color( 0.74902, 0.654902, 0, 1 )
+GraphEdit/colors/selection_fill = Color( 0.74902, 0.654902, 0, 1 )
+GraphEdit/colors/selection_stroke = Color( 0.74902, 0.654902, 0, 1 )
+GraphEdit/styles/bg = ExtResource( 7 )
+GraphEditMinimap/styles/bg = ExtResource( 7 )
+GraphEditMinimap/styles/camera = ExtResource( 7 )
+GraphEditMinimap/styles/node = ExtResource( 7 )
+GraphNode/colors/close_color = Color( 0.74902, 0.654902, 0, 1 )
+GraphNode/colors/resizer_color = Color( 0.74902, 0.654902, 0, 1 )
+GraphNode/colors/title_color = Color( 0.74902, 0.654902, 0, 1 )
+GraphNode/fonts/title_font = ExtResource( 1 )
+GraphNode/styles/breakpoint = ExtResource( 7 )
+GraphNode/styles/comment = ExtResource( 7 )
+GraphNode/styles/commentfocus = ExtResource( 7 )
+GraphNode/styles/defaultfocus = ExtResource( 7 )
+GraphNode/styles/defaultframe = ExtResource( 7 )
+GraphNode/styles/frame = SubResource( 22 )
+GraphNode/styles/position = ExtResource( 7 )
+GraphNode/styles/selectedframe = ExtResource( 3 )
+HScrollBar/styles/grabber = ExtResource( 6 )
+HScrollBar/styles/grabber_highlight = ExtResource( 4 )
+HScrollBar/styles/grabber_pressed = ExtResource( 2 )
+HScrollBar/styles/scroll = ExtResource( 6 )
+HScrollBar/styles/scroll_focus = ExtResource( 4 )
+HSlider/styles/grabber_area = ExtResource( 6 )
+HSlider/styles/grabber_area_highlight = ExtResource( 4 )
+HSlider/styles/slider = ExtResource( 6 )
+ItemList/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+ItemList/colors/font_color_selected = Color( 1, 0.87451, 0, 1 )
+ItemList/colors/guide_color = Color( 0.74902, 0.654902, 0, 0.247059 )
+ItemList/fonts/font = ExtResource( 1 )
+ItemList/styles/bg = ExtResource( 7 )
+ItemList/styles/bg_focus = ExtResource( 4 )
+ItemList/styles/cursor = ExtResource( 6 )
+ItemList/styles/cursor_unfocused = ExtResource( 7 )
+ItemList/styles/selected = ExtResource( 7 )
+ItemList/styles/selected_focus = ExtResource( 4 )
 Label/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
 Label/colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-Label/fonts/font = SubResource( 1 )
+Label/fonts/font = ExtResource( 1 )
+Label/styles/normal = ExtResource( 7 )
 LineEdit/colors/clear_button_color = Color( 1, 0.87451, 0, 1 )
 LineEdit/colors/clear_button_color_pressed = Color( 0.74902, 0.654902, 0, 1 )
 LineEdit/colors/cursor_color = Color( 0.74902, 0.654902, 0, 1 )
@@ -156,7 +170,7 @@ LineEdit/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
 LineEdit/colors/font_color_selected = Color( 0.498039, 0.435294, 0, 1 )
 LineEdit/colors/font_color_uneditable = Color( 1, 0.87451, 0, 1 )
 LineEdit/colors/selection_color = Color( 0.74902, 0.654902, 0, 1 )
-LineEdit/fonts/font = SubResource( 11 )
+LineEdit/fonts/font = null
 LineEdit/styles/focus = SubResource( 8 )
 LineEdit/styles/normal = SubResource( 9 )
 LineEdit/styles/read_only = SubResource( 10 )
@@ -165,12 +179,13 @@ MenuButton/styles/focus = ExtResource( 4 )
 MenuButton/styles/hover = ExtResource( 3 )
 MenuButton/styles/normal = ExtResource( 6 )
 MenuButton/styles/pressed = ExtResource( 2 )
+Panel/styles/panel = ExtResource( 7 )
 PopupMenu/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
 PopupMenu/colors/font_color_accel = Color( 0.74902, 0.654902, 0, 1 )
 PopupMenu/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.247059 )
 PopupMenu/colors/font_color_hover = Color( 0.74902, 0.654902, 0, 1 )
 PopupMenu/colors/font_color_separator = Color( 0.74902, 0.654902, 0, 1 )
-PopupMenu/fonts/font = ExtResource( 8 )
+PopupMenu/fonts/font = null
 PopupMenu/styles/hover = ExtResource( 3 )
 PopupMenu/styles/labeled_separator_left = ExtResource( 7 )
 PopupMenu/styles/labeled_separator_right = ExtResource( 7 )
@@ -180,8 +195,8 @@ PopupMenu/styles/separator = ExtResource( 7 )
 TabContainer/colors/font_color_bg = Color( 0.74902, 0.654902, 0, 1 )
 TabContainer/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.247059 )
 TabContainer/colors/font_color_fg = Color( 0.74902, 0.654902, 0, 1 )
-TabContainer/fonts/font = SubResource( 17 )
-TabContainer/styles/panel = SubResource( 18 )
+TabContainer/fonts/font = null
+TabContainer/styles/panel = ExtResource( 7 )
 TabContainer/styles/tab_bg = SubResource( 19 )
 TabContainer/styles/tab_disabled = SubResource( 20 )
 TabContainer/styles/tab_fg = SubResource( 21 )
@@ -211,8 +226,16 @@ TextEdit/colors/safe_line_number_color = Color( 0.67, 0.78, 0.67, 0.6 )
 TextEdit/colors/selection_color = Color( 0.74902, 0.654902, 0, 1 )
 TextEdit/colors/symbol_color = Color( 0.94, 0.94, 0.94, 1 )
 TextEdit/colors/word_highlighted_color = Color( 0.8, 0.9, 0.9, 0.15 )
-TextEdit/fonts/font = SubResource( 12 )
+TextEdit/fonts/font = null
 TextEdit/styles/completion = SubResource( 13 )
 TextEdit/styles/focus = SubResource( 14 )
 TextEdit/styles/normal = SubResource( 15 )
 TextEdit/styles/read_only = SubResource( 16 )
+VScrollBar/styles/grabber = ExtResource( 6 )
+VScrollBar/styles/grabber_highlight = ExtResource( 4 )
+VScrollBar/styles/grabber_pressed = ExtResource( 2 )
+VScrollBar/styles/scroll = ExtResource( 6 )
+VScrollBar/styles/scroll_focus = ExtResource( 4 )
+VSlider/styles/grabber_area = ExtResource( 6 )
+VSlider/styles/grabber_area_highlight = ExtResource( 4 )
+VSlider/styles/slider = ExtResource( 6 )

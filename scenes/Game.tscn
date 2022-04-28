@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://assets/courbd.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scenes/Fader.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/Level.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/Game.tres" type="Theme" id=4]
+[ext_resource path="res://assets/style/Style.tres" type="Theme" id=4]
 [ext_resource path="res://scenes/LevelPanel.tscn" type="PackedScene" id=5]
 
 [sub_resource type="GDScript" id=1]
@@ -33,13 +33,14 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed(\"level\"):
 		level_panel.visible = true
+		get_tree().paused = true
 
 
 func update_labels():
-	level.text = \"Level: %s\" % G.level
-	pushes.text = \"Pushes: %s\" % G.pushes
-	boxes.text = \"Boxes: %s\" % G.boxes
-	on_target.text = \"On target: %s\" % G.on_target
+	level.text = \" Level: %s\" % G.level
+	pushes.text = \" Pushes: %s\" % G.pushes
+	boxes.text = \" Boxes: %s\" % G.boxes
+	on_target.text = \" On target: %s\" % G.on_target
 
 
 func new_level():
@@ -88,11 +89,358 @@ size = 14
 outline_size = 2
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="StyleBoxFlat" id=39]
+bg_color = Color( 0.247059, 0.215686, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.121569, 0.105882, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 20
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.74902, 0.654902, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.623529, 0.545098, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.372549, 0.32549, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.372549, 0.32549, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.247059, 0.215686, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color( 0, 0, 0, 0.631373 )
+
+[sub_resource type="DynamicFont" id=11]
+size = 20
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.74902, 0.654902, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 1, 0.87451, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.74902, 0.654902, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=23]
+bg_color = Color( 0.74902, 0.654902, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 1, 0.87451, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="DynamicFont" id=17]
+size = 20
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.247059, 0.215686, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0.372549, 0.32549, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_color = Color( 0.247059, 0.215686, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0.247059, 0.215686, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_color = Color( 0.121569, 0.105882, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_color = Color( 0.247059, 0.215686, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+
+[sub_resource type="DynamicFont" id=12]
+size = 21
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 1, 0.87451, 0, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 1, 0.87451, 0, 1 )
+draw_center = false
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.74902, 0.654902, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 1, 0.87451, 0, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.498039, 0.435294, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+
+[sub_resource type="StyleBoxFlat" id=25]
+
+[sub_resource type="StyleBoxFlat" id=26]
+
+[sub_resource type="StyleBoxFlat" id=27]
+
+[sub_resource type="StyleBoxFlat" id=28]
+
+[sub_resource type="StyleBoxFlat" id=29]
+
+[sub_resource type="StyleBoxFlat" id=30]
+
+[sub_resource type="StyleBoxFlat" id=31]
+
+[sub_resource type="StyleBoxFlat" id=32]
+
+[sub_resource type="StyleBoxFlat" id=33]
+
+[sub_resource type="StyleBoxFlat" id=34]
+
+[sub_resource type="StyleBoxFlat" id=35]
+
+[sub_resource type="StyleBoxFlat" id=36]
+
+[sub_resource type="StyleBoxFlat" id=37]
+bg_color = Color( 0.74902, 0.654902, 0, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.498039, 0.435294, 0, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="DynamicFont" id=38]
+size = 20
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=40]
+default_font = SubResource( 38 )
+Button/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+Button/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.247059 )
+Button/colors/font_color_focus = Color( 0.74902, 0.654902, 0, 1 )
+Button/colors/font_color_hover = Color( 0.74902, 0.654902, 0, 1 )
+Button/colors/font_color_pressed = Color( 0.74902, 0.654902, 0, 1 )
+Button/styles/disabled = SubResource( 39 )
+Button/styles/focus = SubResource( 4 )
+Button/styles/hover = SubResource( 5 )
+Button/styles/normal = SubResource( 6 )
+Button/styles/pressed = SubResource( 7 )
+ColorPickerButton/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+ColorPickerButton/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.247059 )
+ColorPickerButton/colors/font_color_focus = Color( 0.74902, 0.654902, 0, 1 )
+ColorPickerButton/colors/font_color_hover = Color( 0.74902, 0.654902, 0, 1 )
+ColorPickerButton/colors/font_color_pressed = Color( 0.74902, 0.654902, 0, 1 )
+Label/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+LineEdit/colors/clear_button_color = Color( 1, 0.87451, 0, 1 )
+LineEdit/colors/clear_button_color_pressed = Color( 0.74902, 0.654902, 0, 1 )
+LineEdit/colors/cursor_color = Color( 0.74902, 0.654902, 0, 1 )
+LineEdit/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+LineEdit/colors/font_color_selected = Color( 0.498039, 0.435294, 0, 1 )
+LineEdit/colors/font_color_uneditable = Color( 1, 0.87451, 0, 1 )
+LineEdit/colors/selection_color = Color( 0.74902, 0.654902, 0, 1 )
+LineEdit/fonts/font = SubResource( 11 )
+LineEdit/styles/focus = SubResource( 8 )
+LineEdit/styles/normal = SubResource( 9 )
+LineEdit/styles/read_only = SubResource( 10 )
+OptionButton/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+OptionButton/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.247059 )
+OptionButton/colors/font_color_focus = Color( 0.74902, 0.654902, 0, 1 )
+OptionButton/colors/font_color_hover = Color( 0.74902, 0.654902, 0, 1 )
+OptionButton/colors/font_color_pressed = Color( 0.74902, 0.654902, 0, 1 )
+ProgressBar/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+ProgressBar/styles/bg = SubResource( 22 )
+ProgressBar/styles/fg = SubResource( 23 )
+TabContainer/colors/font_color_bg = Color( 0.74902, 0.654902, 0, 1 )
+TabContainer/colors/font_color_disabled = Color( 0.74902, 0.654902, 0, 0.247059 )
+TabContainer/colors/font_color_fg = Color( 0.74902, 0.654902, 0, 1 )
+TabContainer/fonts/font = SubResource( 17 )
+TabContainer/styles/panel = SubResource( 18 )
+TabContainer/styles/tab_bg = SubResource( 19 )
+TabContainer/styles/tab_disabled = SubResource( 20 )
+TabContainer/styles/tab_fg = SubResource( 21 )
+TextEdit/colors/background_color = Color( 1, 0.87451, 0, 1 )
+TextEdit/colors/bookmark_color = Color( 0.74902, 0.654902, 0, 1 )
+TextEdit/colors/brace_mismatch_color = Color( 0.74902, 0, 0, 1 )
+TextEdit/colors/breakpoint_color = Color( 0.74902, 0.654902, 0, 0.498039 )
+TextEdit/colors/caret_background_color = Color( 0, 0, 0, 1 )
+TextEdit/colors/caret_color = Color( 0.87451, 0.764706, 0, 1 )
+TextEdit/colors/code_folding_color = Color( 0.8, 0.8, 0.8, 0.8 )
+TextEdit/colors/completion_background_color = Color( 0.17, 0.16, 0.2, 1 )
+TextEdit/colors/completion_existing_color = Color( 0.87, 0.87, 0.87, 0.13 )
+TextEdit/colors/completion_font_color = Color( 0.67, 0.67, 0.67, 1 )
+TextEdit/colors/completion_scroll_color = Color( 1, 1, 1, 1 )
+TextEdit/colors/completion_selected_color = Color( 0.26, 0.26, 0.27, 1 )
+TextEdit/colors/current_line_color = Color( 0.25, 0.25, 0.26, 0.8 )
+TextEdit/colors/executing_line_color = Color( 1, 0.87451, 0.2, 0.4 )
+TextEdit/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+TextEdit/colors/font_color_readonly = Color( 1, 0.87451, 0, 1 )
+TextEdit/colors/font_color_selected = Color( 0.498039, 0.435294, 0, 1 )
+TextEdit/colors/function_color = Color( 0.4, 0.64, 0.81, 1 )
+TextEdit/colors/line_number_color = Color( 0.67, 0.67, 0.67, 0.4 )
+TextEdit/colors/mark_color = Color( 1, 0.4, 0.4, 0.4 )
+TextEdit/colors/member_variable_color = Color( 0.9, 0.31, 0.35, 1 )
+TextEdit/colors/number_color = Color( 0.92, 0.58, 0.2, 1 )
+TextEdit/colors/safe_line_number_color = Color( 0.67, 0.78, 0.67, 0.6 )
+TextEdit/colors/selection_color = Color( 0.74902, 0.654902, 0, 1 )
+TextEdit/colors/symbol_color = Color( 0.94, 0.94, 0.94, 1 )
+TextEdit/colors/word_highlighted_color = Color( 0.8, 0.9, 0.9, 0.15 )
+TextEdit/fonts/font = SubResource( 12 )
+TextEdit/styles/completion = SubResource( 13 )
+TextEdit/styles/focus = SubResource( 14 )
+TextEdit/styles/normal = SubResource( 15 )
+TextEdit/styles/read_only = SubResource( 16 )
+Tree/colors/custom_button_font_highlight = Color( 1, 0.87451, 0, 1 )
+Tree/colors/drop_position_color = Color( 1, 0.87451, 0, 1 )
+Tree/colors/font_color = Color( 0.74902, 0.654902, 0, 1 )
+Tree/colors/font_color_selected = Color( 1, 0.87451, 0, 1 )
+Tree/styles/bg = SubResource( 24 )
+Tree/styles/bg_focus = SubResource( 25 )
+Tree/styles/button_pressed = SubResource( 26 )
+Tree/styles/cursor = SubResource( 27 )
+Tree/styles/cursor_unfocused = SubResource( 28 )
+Tree/styles/custom_button = SubResource( 29 )
+Tree/styles/custom_button_hover = SubResource( 30 )
+Tree/styles/custom_button_pressed = SubResource( 31 )
+Tree/styles/selected = SubResource( 32 )
+Tree/styles/selected_focus = SubResource( 33 )
+Tree/styles/title_button_hover = SubResource( 34 )
+Tree/styles/title_button_normal = SubResource( 35 )
+Tree/styles/title_button_pressed = SubResource( 36 )
+WindowDialog/styles/panel = SubResource( 37 )
+
+[sub_resource type="DynamicFont" id=41]
 size = 48
 font_data = ExtResource( 1 )
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Control"]
+theme = ExtResource( 4 )
 script = SubResource( 1 )
 
 [node name="InGame" type="Node2D" parent="."]
@@ -110,7 +458,6 @@ margin_right = 512.0
 color = Color( 0.247059, 0.215686, 0, 1 )
 
 [node name="Level" type="Label" parent="."]
-margin_left = 16.0
 margin_top = -32.0
 margin_right = 128.0
 theme = SubResource( 2 )
@@ -121,7 +468,7 @@ text = " Level:"
 valign = 1
 
 [node name="Pushes" type="Label" parent="."]
-margin_left = 144.0
+margin_left = 128.0
 margin_top = -32.0
 margin_right = 256.0
 theme = SubResource( 2 )
@@ -132,7 +479,7 @@ text = " Pushes:"
 valign = 1
 
 [node name="Boxes" type="Label" parent="."]
-margin_left = 272.0
+margin_left = 256.0
 margin_top = -32.0
 margin_right = 384.0
 theme = SubResource( 2 )
@@ -143,7 +490,7 @@ text = " Boxes:"
 valign = 1
 
 [node name="OnTarget" type="Label" parent="."]
-margin_left = 400.0
+margin_left = 384.0
 margin_top = -32.0
 margin_right = 512.0
 theme = SubResource( 2 )
@@ -159,17 +506,16 @@ margin_left = 128.0
 margin_top = 160.0
 margin_right = 384.0
 margin_bottom = 224.0
-theme = ExtResource( 4 )
-custom_fonts/font = SubResource( 4 )
+theme = SubResource( 40 )
+custom_fonts/font = SubResource( 41 )
 text = "Win"
 align = 1
 valign = 1
 
 [node name="LevelPanel" parent="." instance=ExtResource( 5 )]
 visible = false
-margin_top = 64.0
 margin_right = 0.0
-margin_bottom = 64.0
+margin_bottom = 0.0
 
 [node name="Fader" parent="." instance=ExtResource( 2 )]
 margin_bottom = 416.0

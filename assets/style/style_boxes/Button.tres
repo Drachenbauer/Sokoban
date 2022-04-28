@@ -2,12 +2,11 @@
 
 [resource]
 bg_color = Color( 0.498039, 0.435294, 0, 1 )
-draw_center = false
 border_width_left = 4
 border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
-border_color = Color( 0.74902, 0.654902, 0, 1 )
+border_color = Color( 0.247059, 0.215686, 0, 1 )
 border_blend = true
 corner_radius_top_left = 4
 corner_radius_top_right = 4

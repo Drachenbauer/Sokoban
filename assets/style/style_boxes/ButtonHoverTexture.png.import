@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/BoxSolved.png-180f730f6d1ca34ea5f9aed27542ea6a.stex"
+path="res://.import/ButtonHoverTexture.png-58c9b04db558eee8bf594995fe302299.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/BoxSolved.png"
-dest_files=[ "res://.import/BoxSolved.png-180f730f6d1ca34ea5f9aed27542ea6a.stex" ]
+source_file="res://assets/style/style_boxes/ButtonHoverTexture.png"
+dest_files=[ "res://.import/ButtonHoverTexture.png-58c9b04db558eee8bf594995fe302299.stex" ]
 
 [params]
 

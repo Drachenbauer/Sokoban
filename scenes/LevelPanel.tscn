@@ -10,7 +10,7 @@ script/source = "extends Control
 # Declare member variables here. Examples:
 onready var level_list = $Panel/Panel2/LevelList
 
-var selected_level = G.level
+var selected_level
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -27,6 +27,7 @@ func _ready():
 				level_list.set_item_disabled(i - 1, true)
 	
 	level_list.select(G.level - 1)
+	selected_level = G.level
 
 
 func _on_LevelList_item_selected(idx):

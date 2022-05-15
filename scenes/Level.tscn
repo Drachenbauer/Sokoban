@@ -23,7 +23,7 @@ enum {WALL, TARGET, BOX, PLAYER}
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if !G.is_save_file_loaded:
-		load_save_file()
+		load_from_save_file()
 		G.is_save_file_loaded = true
 	
 	G.pushes = 0
@@ -41,12 +41,12 @@ func _ready():
 	options.set_as_toplevel(true)
 
 
-func load_save_file():
+func load_from_save_file():
 	if G.file.file_exists(\"user://save.txt\"):
 		G.file.open(\"user://save.txt\", File.READ)
 		G.data = parse_json(G.file.get_line())
 		G.file.close()
-		G.level = G.data[\"level\"]
+		G.level = G.data[\"highest_reached_level\"]
 		G.highest_reached_level = G.data[\"highest_reached_level\"]
 		G.wall_type = G.data[\"wall_type\"]
 		G.wall_thickness = G.data[\"wall_thickness\"]
@@ -84,18 +84,10 @@ func generate_walls_and_targets():
 			if G.MAPS[G.level][G.wall_thickness][y][x] == 1:
 				walls_targets.set_cell(x, y, G.wall_type)
 				walls_targets.update_bitmask_area(Vector2(x, y))
+				grid[x][y] = WALL
 			elif G.MAPS[G.level][G.wall_thickness][y][x] == 2:
 				walls_targets.set_cell(x, y, G.wall_type + 2)
-	
-	var wall_positions = walls_targets.get_used_cells_by_id(G.wall_type)
-	
-	for pos in wall_positions:
-		grid[pos.x][pos.y] = WALL
-		
-	var target_positions = walls_targets.get_used_cells_by_id(G.wall_type + 2)
-	
-	for pos in target_positions:
-		target_grid[pos.x][pos.y] = TARGET
+				target_grid[x][y] = TARGET
 
 
 func generate_boxes():

@@ -21,6 +21,7 @@ var undo_pos = Vector2()
 var direction = Vector2()
 var key_pressed
 var animation_name = \"Idle_D\"
+var boxes
 
 const DIR = {\"left\" : Vector2(-1, 0), \"right\" : Vector2(1, 0), \"up\" : Vector2(0, -1), \"down\" : Vector2(0, 1)}
 const STEP = 16.0 / 36.0
@@ -30,6 +31,7 @@ func _ready():
 	grid = get_parent()
 	type = grid.PLAYER
 	pos = position
+	boxes = get_tree().get_nodes_in_group(\"Boxes\")
 	animation.play(\"Idle_D\")
 
 
@@ -67,7 +69,6 @@ func start_mov(key):
 			G.pushes_player.append(pos)
 			G.pushes_boxes.append([])
 			
-			var boxes = get_tree().get_nodes_in_group(\"Boxes\")
 			for box in boxes:
 				G.pushes_boxes[G.pushes].append(box.pos)
 			
@@ -78,7 +79,6 @@ func start_mov(key):
 
 func step_mov():
 	if move:
-		var boxes = get_tree().get_nodes_in_group(\"Boxes\")
 		for box in boxes:
 				box.push(direction)
 			
@@ -108,7 +108,7 @@ func undo_step():
 		grid.update_child_pos_undo(self)
 		G.pushes_player.remove(G.pushes)
 		
-		for box in G.box_group:
+		for box in boxes:
 			box.undo_pos = box.position
 			box.position = G.pushes_boxes[G.pushes][0]
 			box.pos = box.position
@@ -335,6 +335,7 @@ tracks/0/keys = {
 script = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
+position = Vector2( -2, -2 )
 texture = ExtResource( 1 )
 centered = false
 hframes = 8

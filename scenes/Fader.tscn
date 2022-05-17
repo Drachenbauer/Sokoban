@@ -5,15 +5,14 @@ script/source = "extends ColorRect
 
 # Declare member variables here:
 onready var animation = $AnimationPlayer
-onready var boxes = get_tree().get_nodes_in_group(\"Boxes\")
 
 
 func boxes_rainbow():
 	get_tree().paused = true
-	for box in boxes:
+	for box in G.boxes_instances:
 		box.animation.play(\"Rainbow\")
 	
-	return boxes[boxes.size() - 1].animation
+	return G.boxes_instances[G.boxes_instances.size() - 1].animation
 
 
 func fade_out():

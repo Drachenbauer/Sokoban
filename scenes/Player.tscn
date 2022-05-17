@@ -21,7 +21,6 @@ var undo_pos = Vector2()
 var direction = Vector2()
 var key_pressed
 var animation_name = \"Idle_D\"
-var boxes
 
 const DIR = {\"left\" : Vector2(-1, 0), \"right\" : Vector2(1, 0), \"up\" : Vector2(0, -1), \"down\" : Vector2(0, 1)}
 const STEP = 16.0 / 36.0
@@ -31,7 +30,6 @@ func _ready():
 	grid = get_parent()
 	type = grid.PLAYER
 	pos = position
-	boxes = get_tree().get_nodes_in_group(\"Boxes\")
 	animation.play(\"Idle_D\")
 
 
@@ -69,7 +67,7 @@ func start_mov(key):
 			G.pushes_player.append(pos)
 			G.pushes_boxes.append([])
 			
-			for box in boxes:
+			for box in G.boxes_instances:
 				G.pushes_boxes[G.pushes].append(box.pos)
 			
 			G.pushes += 1
@@ -79,7 +77,7 @@ func start_mov(key):
 
 func step_mov():
 	if move:
-		for box in boxes:
+		for box in G.boxes_instances:
 				box.push(direction)
 			
 		step += 1
@@ -108,7 +106,7 @@ func undo_step():
 		grid.update_child_pos_undo(self)
 		G.pushes_player.remove(G.pushes)
 		
-		for box in boxes:
+		for box in G.boxes_instances:
 			box.undo_pos = box.position
 			box.position = G.pushes_boxes[G.pushes][0]
 			box.pos = box.position

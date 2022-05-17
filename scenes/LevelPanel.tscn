@@ -14,7 +14,7 @@ var selected_level
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var textures = [load(\"res://IconSolved.png\"), load(\"res://Icon.png\")]
+	var textures = [load(\"res://icon_solved.png\"), load(\"res://icon.png\")]
 	
 	for i in range(G.MAPS.size()):
 		if i > 0:

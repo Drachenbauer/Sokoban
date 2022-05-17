@@ -3,18 +3,18 @@ extends Node
 
 # Declare member variables here:
 var level = 1
-var highest_reached_level = 1
-var wall_type = 0
-var wall_thickness = 0
-var data = {"level" : level, "highest_reached_level" : highest_reached_level, "wall_type" : wall_type, "wall_thickness" : wall_thickness}
-var file = File.new()
-var is_save_file_loaded = false
-
 var pushes = 0
 var boxes = 0
 var on_target = 0
 var pushes_player = []
 var pushes_boxes = []
+var boxes_instances = []
+var highest_reached_level = 1
+var wall_type = 0
+var wall_thickness = 0
+var data = {"highest_reached_level" : highest_reached_level, "wall_type" : wall_type, "wall_thickness" : wall_thickness}
+var file = File.new()
+var is_save_file_loaded = false
 
 const MAPS = [
 	[],

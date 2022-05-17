@@ -100,11 +100,6 @@ position = Vector2( 0, -32 )
 anchor_mode = 0
 current = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
-margin_top = -32.0
-margin_right = 512.0
-color = Color( 0.247059, 0.215686, 0, 1 )
-
 [node name="Level" type="Label" parent="."]
 margin_top = -32.0
 margin_right = 128.0

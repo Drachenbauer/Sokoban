@@ -34,12 +34,13 @@ func _ready():
 
 
 func _process(_delta):
-	move()
+	check_controls()
+	step_mov()
 	animate_player()
 
 
 # warning-ignore:function_conflicts_variable
-func move():
+func check_controls():
 	if !move:
 		if Input.is_action_pressed(\"left\"):
 			start_mov(\"left\")
@@ -51,8 +52,22 @@ func move():
 			start_mov(\"down\")
 		elif Input.is_action_just_pressed(\"undo\"):
 			undo_step()
+
+
+func undo_step():
+	if !G.pushes_player.size() == 0:
+		G.pushes -= 1
+		undo_pos = position
+		position = G.pushes_player[G.pushes]
+		pos = position
+		grid.update_child_pos_undo(self)
+		G.pushes_player.remove(G.pushes)
 		
-	step_mov()
+		for box in G.boxes_instances:
+			box.undo_step()
+		
+		G.pushes_boxes.remove(G.pushes)
+		grid.count_boxes_on_target()
 
 
 func start_mov(key):
@@ -95,22 +110,6 @@ func step_mov():
 		position = pos
 	else:
 		direction = Vector2(0, 0)
-
-
-func undo_step():
-	if !G.pushes_player.size() == 0:
-		G.pushes -= 1
-		undo_pos = position
-		position = G.pushes_player[G.pushes]
-		pos = position
-		grid.update_child_pos_undo(self)
-		G.pushes_player.remove(G.pushes)
-		
-		for box in G.boxes_instances:
-			box.undo_step()
-		
-		G.pushes_boxes.remove(G.pushes)
-		grid.count_boxes_on_target()
 
 
 func animate_player():

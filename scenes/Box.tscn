@@ -41,7 +41,16 @@ func push (dir):
 		
 		position = Vector2(pos.x, pos.y)
 		check_display_state()
-		
+
+
+func undo_step():
+	undo_pos = position
+	position = G.pushes_boxes[G.pushes][0]
+	pos = position
+	grid.update_child_pos_undo(self)
+	check_display_state()
+	G.pushes_boxes[G.pushes].remove(0)
+
 
 func check_display_state():
 	if is_on_target():

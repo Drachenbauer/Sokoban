@@ -42,15 +42,17 @@ func _process(_delta):
 # warning-ignore:function_conflicts_variable
 func check_controls():
 	if !move:
-		if Input.is_action_pressed(\"left\"):
+		if Input.is_action_pressed(\"left\") && !Input.is_action_pressed(\"right\"):
 			start_mov(\"left\")
-		elif Input.is_action_pressed(\"right\"):
+		elif Input.is_action_pressed(\"right\") && !Input.is_action_pressed(\"left\"):
 			start_mov(\"right\")
-		elif Input.is_action_pressed(\"up\"):
+		
+		if Input.is_action_pressed(\"up\") && !Input.is_action_pressed(\"down\"):
 			start_mov(\"up\")
-		elif Input.is_action_pressed(\"down\"):
+		elif Input.is_action_pressed(\"down\") && !Input.is_action_pressed(\"up\"):
 			start_mov(\"down\")
-		elif Input.is_action_just_pressed(\"undo\"):
+		
+		if Input.is_action_just_pressed(\"undo\"):
 			undo_step()
 
 
